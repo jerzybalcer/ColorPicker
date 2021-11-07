@@ -3,10 +3,55 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ColorPicker"
+        xmlns:local="clr-namespace:ColorPicker" d:DataContext="{d:DesignInstance Type=local:PickerViewModel}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="400">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
 
+        <Rectangle x:Name="ColorPresenter" Grid.Row="0" MinWidth="500" MinHeight="500" 
+                   VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15" Fill="{Binding PickedColor}"/>
+        <TextBlock x:Name="ColorHex" Text="{Binding PickedColorHex}" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24"/>
+
+        <Grid Grid.Row="2" x:Name="Sliders">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" FontSize="18" Content="R" HorizontalAlignment="Center"/>
+            <Label Grid.Row="1" Grid.Column="0" FontSize="18" Content="G" HorizontalAlignment="Center"/>
+            <Label Grid.Row="2" Grid.Column="0" FontSize="18" Content="B" HorizontalAlignment="Center"/>
+            <Label Grid.Row="3" Grid.Column="0" FontSize="18" Content="A" HorizontalAlignment="Center"/>
+
+            <Slider x:Name="RedSlider" Grid.Row="0" Grid.Column="1" Minimum="0" Maximum="255" TickFrequency="1" 
+                    IsSnapToTickEnabled="True" Value="{Binding RedValue}" ValueChanged="ColorSlider_ValueChanged"/>
+            <Slider x:Name="GreenSlider" Grid.Row="1" Grid.Column="1" Minimum="0" Maximum="255" TickFrequency="1" 
+                    IsSnapToTickEnabled="True" Value="{Binding GreenValue}" ValueChanged="ColorSlider_ValueChanged"/>
+            <Slider x:Name="BlueSlider" Grid.Row="2" Grid.Column="1" Minimum="0" Maximum="255" TickFrequency="1" 
+                    IsSnapToTickEnabled="True" Value="{Binding BlueValue}" ValueChanged="ColorSlider_ValueChanged"/>
+            <Slider x:Name="AlphaSlider" Grid.Row="3" Grid.Column="1" Minimum="0" Maximum="255" TickFrequency="1" 
+                    IsSnapToTickEnabled="True" Value="{Binding AlphaValue}" ValueChanged="ColorSlider_ValueChanged"/>
+
+            <Label Grid.Row="0" Grid.Column="2" FontSize="18" Content="{Binding ElementName=RedSlider, Path=Value}" HorizontalAlignment="Center"/>
+            <Label Grid.Row="1" Grid.Column="2" FontSize="18" Content="{Binding ElementName=GreenSlider, Path=Value}" HorizontalAlignment="Center"/>
+            <Label Grid.Row="2" Grid.Column="2" FontSize="18" Content="{Binding ElementName=BlueSlider, Path=Value}" HorizontalAlignment="Center"/>
+            <Label Grid.Row="3" Grid.Column="2" FontSize="18" Content="{Binding ElementName=AlphaSlider, Path=Value}" HorizontalAlignment="Center"/>
+
+        </Grid>
+        
+        
     </Grid>
 </Window>
