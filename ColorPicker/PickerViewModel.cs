@@ -1,22 +1,25 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using System;
+using System.ComponentModel;
 using System.Windows.Media;
 
 namespace ColorPicker
 {
     public class PickerViewModel : INotifyPropertyChanged
     {
-        public SolidColorBrush PickedColor { get; set; } = new SolidColorBrush(Color.FromArgb(255,0,0,0));
-
-        private string _pickedColorHex;
+        public SolidColorBrush PickedColorBrush { get; set; } = new SolidColorBrush(Color.FromArgb(255,0,0,0));
         public string PickedColorHex
         {
-            get { 
-                return "#"+AlphaValue.ToString("X2") + RedValue.ToString("X2") + GreenValue.ToString("X2") + BlueValue.ToString("X2"); 
-            }
-            set { _pickedColorHex = value; }
+            get => "#" + AlphaValue.ToString("X2") + RedValue.ToString("X2") + GreenValue.ToString("X2") + BlueValue.ToString("X2");
         }
-
+        public SolidColorBrush PickedHexTextColor
+        {
+            get
+            {
+                double brightness = Math.Sqrt(RedValue*RedValue*0.241 + GreenValue*GreenValue*0.691 + BlueValue*BlueValue*0.068);
+                if (brightness > 130 || AlphaValue < 110) return new SolidColorBrush(Colors.Black);
+                else return new SolidColorBrush(Colors.White);
+            }
+        }
 
         public int RedValue { get; set; } = 0;
         public int GreenValue { get; set; } = 0;
@@ -25,7 +28,7 @@ namespace ColorPicker
 
         public void PickNewColor()
         {
-            PickedColor = new SolidColorBrush(Color.FromArgb((byte)AlphaValue, (byte)RedValue, (byte)GreenValue, (byte)BlueValue));
+            PickedColorBrush = new SolidColorBrush(Color.FromArgb((byte)AlphaValue, (byte)RedValue, (byte)GreenValue, (byte)BlueValue));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

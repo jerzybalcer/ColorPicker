@@ -5,17 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ColorPicker" d:DataContext="{d:DesignInstance Type=local:PickerViewModel}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="400">
+        Title="MainWindow" Height="600" Width="900" ResizeMode="CanMinimize">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
-            <RowDefinition/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
 
-        <Rectangle x:Name="ColorPresenter" Grid.Row="0" MinWidth="500" MinHeight="500" 
-                   VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15" Fill="{Binding PickedColor}"/>
-        <TextBlock x:Name="ColorHex" Text="{Binding PickedColorHex}" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24"/>
+        <Rectangle Margin="15" Opacity="0.4" MinWidth="100" MinHeight="100">
+            <Rectangle.Fill>
+                <DrawingBrush TileMode="Tile" Viewport="0,0,20,20" ViewportUnits="Absolute" >
+                    <DrawingBrush.Drawing>
+                        <GeometryDrawing Geometry="M0,0 H1 V1 H2 V2 H1 V1 H0Z" Brush="LightGray"/>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <Border x:Name="ColorPresenter" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                   Margin="15" Background="{Binding PickedColorBrush}">
+            <Label x:Name="ColorHex" Content="{Binding PickedColorHex}" VerticalAlignment="Top" 
+                   HorizontalAlignment="Right" FontSize="24" Margin="5" Foreground="{Binding PickedHexTextColor}"/>
+        </Border>
+        
 
         <Grid Grid.Row="2" x:Name="Sliders">
             <Grid.RowDefinitions>
