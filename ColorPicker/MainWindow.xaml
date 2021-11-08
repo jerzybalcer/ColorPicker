@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ColorPicker" d:DataContext="{d:DesignInstance Type=local:PickerViewModel}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="900" ResizeMode="CanMinimize">
+        Title="Color Picker" Height="600" Width="900" ResizeMode="CanMinimize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
@@ -27,12 +27,18 @@
             </Rectangle.Fill>
         </Rectangle>
 
-        <Border x:Name="ColorPresenter" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+        <Grid x:Name="ColorPresenter" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                    Margin="15" Background="{Binding PickedColorBrush}">
-            <Label x:Name="ColorHex" Content="{Binding PickedColorHex}" VerticalAlignment="Top" 
-                   HorizontalAlignment="Right" FontSize="24" Margin="5" Foreground="{Binding PickedHexTextColor}"/>
-        </Border>
-        
+            <Label x:Name="ColorHex" Content="{Binding PickedColorHex}" VerticalAlignment="Top" HorizontalAlignment="Right" 
+                   FontSize="24" Margin="5,5,45,5" Foreground="{Binding PickedHexTextColor}"/>
+
+            <Label x:Name="CopyColorHex" Content="📋" VerticalAlignment="Top" HorizontalAlignment="Right" 
+                   FontSize="24" Margin="5,5,5,5" Foreground="{Binding PickedHexTextColor}" Visibility="Visible" 
+                   MouseLeftButtonUp="CopyColorHex_MouseLeftButtonUp" Cursor="Hand"/>
+            <Label x:Name="CopiedColorHex" Content="✔" VerticalAlignment="Top" HorizontalAlignment="Right" 
+                   FontSize="24" Margin="5,5,5,5" Foreground="{Binding PickedHexTextColor}" Visibility="Hidden"
+                   MouseLeftButtonUp="CopyColorHex_MouseLeftButtonUp" Cursor="Hand"/>
+        </Grid>
 
         <Grid Grid.Row="2" x:Name="Sliders">
             <Grid.RowDefinitions>
@@ -70,9 +76,6 @@
                    HorizontalAlignment="Center" FontSize="18" Width="40" Height="30"/>
             <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding ElementName=AlphaSlider, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                    HorizontalAlignment="Center" FontSize="18" Width="40" Height="30"/>
-
         </Grid>
-        
-        
     </Grid>
 </Window>
