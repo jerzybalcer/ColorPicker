@@ -1,25 +1,22 @@
-﻿using System.ComponentModel;
-
-namespace ColorPicker
+﻿namespace ColorPicker.ColorModels.ColorComponents
 {
-    public class ColorComponent : INotifyPropertyChanged
+    public class EightBitComponent
     {
         private int _val;
         public int Value
         {
-            get {
+            get
+            {
                 if (_val > 255) return 255;
                 else if (_val < 0) return 0;
                 else return _val;
             }
-            set { _val = value;}
+            set { _val = value; }
         }
 
-        public ColorComponent(int initVal)
+        public EightBitComponent(int initVal)
         {
             Value = initVal;
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

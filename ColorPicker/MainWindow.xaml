@@ -5,21 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ColorPicker" d:DataContext="{d:DesignInstance Type=local:PickerViewModel}"
         mc:Ignorable="d"
-        Title="Color Picker" Height="600" Width="900" ResizeMode="CanMinimize">
+        Title="Color Picker" Height="600" Width="900" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="6*"/>
         </Grid.RowDefinitions>
 
-        <Rectangle Margin="15" Opacity="0.4" MinWidth="100" MinHeight="100">
+        <Rectangle RadiusX="20" RadiusY="20" Margin="15" Opacity="0.5" Grid.ColumnSpan="4">
             <Rectangle.Fill>
-                <DrawingBrush TileMode="Tile" Viewport="0,0,20,20" ViewportUnits="Absolute" >
+                <DrawingBrush TileMode="Tile" Viewport="0,0,20,20" ViewportUnits="Absolute">
                     <DrawingBrush.Drawing>
                         <GeometryDrawing Geometry="M0,0 H1 V1 H2 V2 H1 V1 H0Z" Brush="LightGray"/>
                     </DrawingBrush.Drawing>
@@ -27,18 +30,20 @@
             </Rectangle.Fill>
         </Rectangle>
 
-        <Grid x:Name="ColorPresenter" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
-                   Margin="15" Background="{Binding PickedColorBrush}">
-            <Label x:Name="ColorHex" Content="{Binding PickedColorHex}" VerticalAlignment="Top" HorizontalAlignment="Right" 
+        <Border x:Name="ColorPresenter" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                   Margin="15" Background="{Binding PickedColorBrush}" Grid.ColumnSpan="4" CornerRadius="20">
+            <Grid>
+                <Label x:Name="ColorHex" Content="{Binding PickedColorHex}" VerticalAlignment="Top" HorizontalAlignment="Right" 
                    FontSize="24" Margin="5,5,45,5" Foreground="{Binding PickedHexTextColor}"/>
 
-            <Label x:Name="CopyColorHex" Content="📋" VerticalAlignment="Top" HorizontalAlignment="Right" 
+                <Label x:Name="CopyColorHex" Content="📋" VerticalAlignment="Top" HorizontalAlignment="Right" 
                    FontSize="24" Margin="5,5,5,5" Foreground="{Binding PickedHexTextColor}" Visibility="Visible" 
                    MouseLeftButtonUp="CopyColorHex_MouseLeftButtonUp" Cursor="Hand"/>
-            <Label x:Name="CopiedColorHex" Content="✔" VerticalAlignment="Top" HorizontalAlignment="Right" 
+                <Label x:Name="CopiedColorHex" Content="✔" VerticalAlignment="Top" HorizontalAlignment="Right" 
                    FontSize="24" Margin="5,5,5,5" Foreground="{Binding PickedHexTextColor}" Visibility="Hidden"
                    MouseLeftButtonUp="CopyColorHex_MouseLeftButtonUp" Cursor="Hand"/>
-        </Grid>
+            </Grid>
+        </Border>
 
         <Grid Grid.Row="2" x:Name="Sliders">
             <Grid.RowDefinitions>
@@ -54,28 +59,150 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" FontSize="18" Content="R" HorizontalAlignment="Center"/>
-            <Label Grid.Row="1" Grid.Column="0" FontSize="18" Content="G" HorizontalAlignment="Center"/>
-            <Label Grid.Row="2" Grid.Column="0" FontSize="18" Content="B" HorizontalAlignment="Center"/>
-            <Label Grid.Row="3" Grid.Column="0" FontSize="18" Content="A" HorizontalAlignment="Center"/>
+            <Label Grid.Row="0" Grid.Column="0" FontSize="18" Content="R" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Foreground="#7d7d7d"/>
+            <Label Grid.Row="1" Grid.Column="0" FontSize="18" Content="G" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Foreground="#7d7d7d"/>
+            <Label Grid.Row="2" Grid.Column="0" FontSize="18" Content="B" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Foreground="#7d7d7d"/>
+            <Label Grid.Row="3" Grid.Column="0" FontSize="18" Content="A" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Foreground="#7d7d7d"/>
 
             <Slider x:Name="RedSlider" Grid.Row="0" Grid.Column="1" Minimum="0" Maximum="255" TickFrequency="1" 
-                    IsSnapToTickEnabled="True" Value="{Binding Red.Value}" ValueChanged="ColorSlider_ValueChanged"/>
+                    IsSnapToTickEnabled="True" Value="{Binding RgbColor.Red.Value}" ValueChanged="ColorSlider_ValueChanged"
+                    VerticalAlignment="Center"/>
             <Slider x:Name="GreenSlider" Grid.Row="1" Grid.Column="1" Minimum="0" Maximum="255" TickFrequency="1" 
-                    IsSnapToTickEnabled="True" Value="{Binding Green.Value}" ValueChanged="ColorSlider_ValueChanged"/>
+                    IsSnapToTickEnabled="True" Value="{Binding RgbColor.Green.Value}" ValueChanged="ColorSlider_ValueChanged"
+                    VerticalAlignment="Center"/>
             <Slider x:Name="BlueSlider" Grid.Row="2" Grid.Column="1" Minimum="0" Maximum="255" TickFrequency="1" 
-                    IsSnapToTickEnabled="True" Value="{Binding Blue.Value}" ValueChanged="ColorSlider_ValueChanged"/>
+                    IsSnapToTickEnabled="True" Value="{Binding RgbColor.Blue.Value}" ValueChanged="ColorSlider_ValueChanged"
+                    VerticalAlignment="Center"/>
             <Slider x:Name="AlphaSlider" Grid.Row="3" Grid.Column="1" Minimum="0" Maximum="255" TickFrequency="1" 
-                    IsSnapToTickEnabled="True" Value="{Binding Alpha.Value}" ValueChanged="ColorSlider_ValueChanged"/>
+                    IsSnapToTickEnabled="True" Value="{Binding Alpha.Value}" ValueChanged="ColorSlider_ValueChanged"
+                    VerticalAlignment="Center"/>
 
             <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding ElementName=RedSlider, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                     HorizontalAlignment="Center" FontSize="18" Width="40" Height="30"/>
+                     HorizontalAlignment="Center" Style="{StaticResource CustomTextBox}"/>
             <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding ElementName=GreenSlider, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                   HorizontalAlignment="Center" FontSize="18" Width="40" Height="30"/>
+                   HorizontalAlignment="Center" Style="{StaticResource CustomTextBox}"/>
             <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding ElementName=BlueSlider, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                   HorizontalAlignment="Center" FontSize="18" Width="40" Height="30"/>
+                   HorizontalAlignment="Center" Style="{StaticResource CustomTextBox}"/>
             <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding ElementName=AlphaSlider, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                   HorizontalAlignment="Center" FontSize="18" Width="40" Height="30"/>
+                   HorizontalAlignment="Center" Style="{StaticResource CustomTextBox}"/>
+        </Grid>
+
+        <Grid Grid.Column="2" Grid.Row="2" x:Name="Stats">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                
+                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding HsvColor.Hue.Value}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                    Style="{StaticResource CustomTextBox}"/>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding HsvColor.Saturation.Value}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                    Style="{StaticResource CustomTextBox}"/>
+                <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding HsvColor.Value.Value}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                    Style="{StaticResource CustomTextBox}"/>
+                <Label Grid.Column="0" Grid.Row="1" Content="H" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                       FontSize="16" Foreground="#7d7d7d"/>
+                <Label Grid.Column="1" Grid.Row="1" Content="S" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                       FontSize="16" Foreground="#7d7d7d"/>
+                <Label Grid.Column="2" Grid.Row="1" Content="V" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                       FontSize="16" Foreground="#7d7d7d"/>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding HslColor.Hue.Value}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                    Style="{StaticResource CustomTextBox}"/>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding HslColor.Saturation.Value}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                    Style="{StaticResource CustomTextBox}"/>
+                <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding HslColor.Lightness.Value}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                    Style="{StaticResource CustomTextBox}"/>
+                <Label Grid.Column="0" Grid.Row="1" Content="H" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                       FontSize="16" Foreground="#7d7d7d"/>
+                <Label Grid.Column="1" Grid.Row="1" Content="S" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                       FontSize="16" Foreground="#7d7d7d"/>
+                <Label Grid.Column="2" Grid.Row="1" Content="L" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                       FontSize="16" Foreground="#7d7d7d"/>
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding CmykColor.Cyan.Value}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                    Style="{StaticResource CustomTextBox}"/>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding CmykColor.Magenta.Value}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                    Style="{StaticResource CustomTextBox}"/>
+                <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding CmykColor.Yellow.Value}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                    Style="{StaticResource CustomTextBox}"/>
+                <TextBox Grid.Column="3" Grid.Row="0" Text="{Binding CmykColor.Key.Value}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                    Style="{StaticResource CustomTextBox}"/>
+                <Label Grid.Column="0" Grid.Row="1" Content="C" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                       FontSize="16" Foreground="#7d7d7d"/>
+                <Label Grid.Column="1" Grid.Row="1" Content="M" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                       FontSize="16" Foreground="#7d7d7d"/>
+                <Label Grid.Column="2" Grid.Row="1" Content="Y" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                       FontSize="16" Foreground="#7d7d7d"/>
+                <Label Grid.Column="3" Grid.Row="1" Content="K" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                       FontSize="16" Foreground="#7d7d7d"/>
+            </Grid>
+
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding RgbColor.Red.Value}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                    Style="{StaticResource CustomTextBox}"/>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding RgbColor.Green.Value}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                    Style="{StaticResource CustomTextBox}"/>
+                <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding RgbColor.Blue.Value}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                    Style="{StaticResource CustomTextBox}"/>
+                <Label Grid.Column="0" Grid.Row="1" Content="R" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                       FontSize="16" Foreground="#7d7d7d"/>
+                <Label Grid.Column="1" Grid.Row="1" Content="G" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                       FontSize="16" Foreground="#7d7d7d"/>
+                <Label Grid.Column="2" Grid.Row="1" Content="B" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                       FontSize="16" Foreground="#7d7d7d"/>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

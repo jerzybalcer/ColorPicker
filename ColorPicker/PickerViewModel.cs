@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿using ColorPicker.ColorModels;
+using ColorPicker.ColorModels.ColorComponents;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
 
@@ -6,31 +9,43 @@ namespace ColorPicker
 {
     public class PickerViewModel : INotifyPropertyChanged
     {
-        private const int AlphaContrastThreshold = 110;
-        private const int BrightnessContrastThreshold = 130;
-
-        public ColorComponent Red { get; set; } = new(0);
-        public ColorComponent Green { get; set; } = new(0);
-        public ColorComponent Blue { get; set; } = new(0);
-        public ColorComponent Alpha { get; set; } = new(255);
+        public EightBitComponent Alpha { get; set; } = new(255);
 
         public SolidColorBrush PickedColorBrush { get; set; }
-        public string PickedColorHex => "#" + Alpha.Value.ToString("X2") + Red.Value.ToString("X2") + Green.Value.ToString("X2") + Blue.Value.ToString("X2");
-        public SolidColorBrush PickedHexTextColor
-        {
-            get
-            {
-                double brightness = ColorProcessor.CalculateBrightness(Red.Value, Green.Value, Blue.Value);
-                if (brightness > BrightnessContrastThreshold || Alpha.Value < AlphaContrastThreshold) return new SolidColorBrush(Colors.Black);
-                else return new SolidColorBrush(Colors.White);
-            }
-        }
+        public SolidColorBrush PickedHexTextColor { get; set; }
+        public string PickedColorHex => "#" + Alpha.Value.ToString("X2") + RgbColor.Red.Value.ToString("X2") 
+            + RgbColor.Green.Value.ToString("X2") + RgbColor.Blue.Value.ToString("X2");
+
+        public RgbColor RgbColor { get; set; }
+        public HsvColor HsvColor { get; set; }
+        public HslColor HslColor { get; set; }
+        public CmykColor CmykColor { get; set; }
+
         public void PickNewColor()
         {
-            PickedColorBrush = new SolidColorBrush(Color.FromArgb((byte)Alpha.Value, (byte)Red.Value, (byte)Green.Value, (byte)Blue.Value));
+            PickedColorBrush = new SolidColorBrush(
+                Color.FromArgb((byte)Alpha.Value, (byte)RgbColor.Red.Value, (byte)RgbColor.Green.Value, (byte)RgbColor.Blue.Value)
+                );
+            PickedHexTextColor = ColorProcessor.PickTextColor(RgbColor.Red.Value, RgbColor.Green.Value, RgbColor.Blue.Value, Alpha.Value);
             OnPropertyChanged(nameof(PickedColorHex));
-            OnPropertyChanged(nameof(PickedHexTextColor));
+
         }
+
+        public void ConvertValues()
+        {
+            HsvColor = RgbColor.ToHsvColor();
+            HslColor = RgbColor.ToHslColor();
+            CmykColor = RgbColor.ToCmykColor();
+        }
+
+        public PickerViewModel()
+        {
+            RgbColor = new RgbColor(0,0,0);
+            HsvColor = new HsvColor(0,0,0);
+            HslColor = new HslColor(0,0,0);
+            CmykColor = new CmykColor(0, 0, 0, 100);
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)
