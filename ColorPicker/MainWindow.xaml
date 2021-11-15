@@ -70,16 +70,16 @@
 
             <Slider x:Name="RedSlider" Grid.Row="0" Grid.Column="1" Minimum="0" Maximum="255" TickFrequency="1" 
                     IsSnapToTickEnabled="True" Value="{Binding RgbColor.Red.Value}" ValueChanged="ColorSlider_ValueChanged"
-                    VerticalAlignment="Center" PreviewMouseUp="ColorSlider_PreviewMouseUp"/>
+                    VerticalAlignment="Center" PreviewMouseUp="ColorSlider_PreviewMouseUp" Style="{DynamicResource CustomSlider}"/>
             <Slider x:Name="GreenSlider" Grid.Row="1" Grid.Column="1" Minimum="0" Maximum="255" TickFrequency="1" 
                     IsSnapToTickEnabled="True" Value="{Binding RgbColor.Green.Value}" ValueChanged="ColorSlider_ValueChanged"
-                    VerticalAlignment="Center" PreviewMouseUp="ColorSlider_PreviewMouseUp"/>
+                    VerticalAlignment="Center" PreviewMouseUp="ColorSlider_PreviewMouseUp" Style="{DynamicResource CustomSlider}"/>
             <Slider x:Name="BlueSlider" Grid.Row="2" Grid.Column="1" Minimum="0" Maximum="255" TickFrequency="1" 
                     IsSnapToTickEnabled="True" Value="{Binding RgbColor.Blue.Value}" ValueChanged="ColorSlider_ValueChanged"
-                    VerticalAlignment="Center" PreviewMouseUp="ColorSlider_PreviewMouseUp"/>
+                    VerticalAlignment="Center" PreviewMouseUp="ColorSlider_PreviewMouseUp" Style="{DynamicResource CustomSlider}"/>
             <Slider x:Name="AlphaSlider" Grid.Row="3" Grid.Column="1" Minimum="0" Maximum="255" TickFrequency="1" 
                     IsSnapToTickEnabled="True" Value="{Binding Alpha.Value}" ValueChanged="ColorSlider_ValueChanged"
-                    VerticalAlignment="Center"/>
+                    VerticalAlignment="Center" Style="{DynamicResource CustomSlider}"/>
 
             <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding ElementName=RedSlider, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                      HorizontalAlignment="Center" Style="{StaticResource CustomTextBox}"/>

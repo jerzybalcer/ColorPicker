@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:ColorPicker"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <ResourceDictionary Source="ResourceDictionaries/CustomTextBox.xaml"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ResourceDictionaries/CustomTextBox.xaml"/>
+                <ResourceDictionary Source="ResourceDictionaries/CustomSlider.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
