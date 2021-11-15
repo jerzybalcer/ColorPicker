@@ -22,7 +22,12 @@ namespace ColorPicker
             CopiedColorHex.Visibility = Visibility.Hidden;
             CopyColorHex.Visibility = Visibility.Visible;
 
-            Task.Run(() => _viewModel.ConvertValues());
+            if(Mouse.LeftButton != MouseButtonState.Pressed)
+                _viewModel.ConvertValues();
+        }
+        private void ColorSlider_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            _viewModel.ConvertValues();
         }
         private void CopyColorHex_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -30,6 +35,5 @@ namespace ColorPicker
             CopiedColorHex.Visibility = Visibility.Visible;
             CopyColorHex.Visibility = Visibility.Hidden;
         }
-
     }
 }
