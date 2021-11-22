@@ -8,6 +8,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ResourceDictionaries/CustomTextBox.xaml"/>
                 <ResourceDictionary Source="ResourceDictionaries/CustomSlider.xaml"/>
+                <ResourceDictionary Source="ResourceDictionaries/CustomCheckBox.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,22 +19,31 @@ namespace ColorPicker
 
         private void ColorSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            _viewModel.PickNewColor();
             CopiedColorHex.Visibility = Visibility.Hidden;
             CopyColorHex.Visibility = Visibility.Visible;
 
-            if(Mouse.LeftButton != MouseButtonState.Pressed)
-                _viewModel.ConvertValues();
+            _viewModel.PickFromRgb();
         }
         private void ColorSlider_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            _viewModel.ConvertValues();
+            _viewModel.ConvertValuesFromRgb();
         }
-        private void CopyColorHex_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void CopyColorHex_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Clipboard.SetText(ColorHex.Content.ToString());
             CopiedColorHex.Visibility = Visibility.Visible;
             CopyColorHex.Visibility = Visibility.Hidden;
+        }
+
+        private void RgbTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            _viewModel.ConvertValuesFromRgb();
+        }
+
+        private void HsvTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            _viewModel.PickFromHsv();
+            _viewModel.ConvertValuesFromHsv();
         }
     }
 }

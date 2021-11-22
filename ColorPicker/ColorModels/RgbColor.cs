@@ -38,7 +38,7 @@ namespace ColorPicker.ColorModels
             }
             else if (_maxComponent == redFraction)
             {
-                hueVal = 60 * (((greenFraction - blueFraction) / delta) % 6);
+                hueVal = 60 * (((greenFraction - blueFraction) / delta) %6);
             }
             else if (_maxComponent == greenFraction)
             {
@@ -48,6 +48,9 @@ namespace ColorPicker.ColorModels
             {
                 hueVal = 60 * (((redFraction - greenFraction) / delta) + 4);
             }
+
+            if (hueVal < 0)
+                hueVal = hueVal + 360;
 
             return hueVal;
         }
@@ -70,7 +73,7 @@ namespace ColorPicker.ColorModels
 
             double valVal = _maxComponent;
 
-            return new HsvColor((int)(Math.Ceiling(hueVal)), (int)(Math.Ceiling(satVal * 100)), (int)(Math.Ceiling(valVal * 100)));
+            return new HsvColor((int)(hueVal), (int)(satVal * 100), (int)(valVal * 100));
         }
 
         public HslColor ToHslColor()
@@ -91,20 +94,22 @@ namespace ColorPicker.ColorModels
                 satVal = delta / (1 - Math.Abs(2 * lightnessVal - 1));
             }
 
-            return new HslColor((int)(Math.Ceiling(hueVal)), (int)(Math.Ceiling(satVal * 100)), (int)(Math.Ceiling(lightnessVal * 100)));
+            return new HslColor((int)(hueVal), (int)(satVal * 100), (int)(lightnessVal * 100));
         }
 
         public CmykColor ToCmykColor()
         {
-            double[] fractions = ColorProcessor.CalculateRgbFractions(Red.Value, Green.Value, Blue.Value);
+            double redFraction = (double)Red.Value / 255.0d;
+            double greenFraction = (double)Green.Value / 255.0d;
+            double blueFraction = (double)Blue.Value / 255.0d;
 
-            double keyVal = 1 - Math.Max(fractions[0], Math.Max(fractions[1], fractions[2]));
-            double cyanVal = (1 - fractions[0] - keyVal) / (1 - keyVal);
-            double magentaVal = (1 - fractions[1] - keyVal) / (1 - keyVal);
-            double yellowVal = (1 - fractions[2] - keyVal) / (1 - keyVal);
+            double keyVal = 1 - Math.Max(redFraction, Math.Max(greenFraction, blueFraction));
+            double cyanVal = (1 - redFraction - keyVal) / (1 - keyVal);
+            double magentaVal = (1 - greenFraction - keyVal) / (1 - keyVal);
+            double yellowVal = (1 - blueFraction - keyVal) / (1 - keyVal);
 
-            return new CmykColor((int)Math.Ceiling(100 * cyanVal), (int)Math.Ceiling(100 * magentaVal),
-                (int)Math.Ceiling(100 * yellowVal), (int)Math.Ceiling(100 * keyVal));
+            return new CmykColor((int)(100 * cyanVal), (int)(100 * magentaVal),
+                (int)(100 * yellowVal), (int)(100 * keyVal));
         }
     }
 }

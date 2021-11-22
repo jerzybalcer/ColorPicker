@@ -12,21 +12,11 @@ namespace ColorPicker
         private const int AlphaContrastThreshold = 110;
         private const int BrightnessContrastThreshold = 130;
 
-        public static SolidColorBrush PickTextColor(int red, int green, int blue, int alpha)
+        public static SolidColorBrush PickContrastingColor(int red, int green, int blue, int alpha)
         {
             var brightness = Math.Sqrt(red * red * RedBrightnessConst + green * green * GreenBrightnessConst + blue * blue * BlueBrightnessConst);
             if (brightness > BrightnessContrastThreshold || alpha < AlphaContrastThreshold) return new SolidColorBrush(Colors.Black);
             else return new SolidColorBrush(Colors.White);
-        }
-
-        public static double[] CalculateRgbFractions(int red, int green, int blue)
-        {
-            double[] fractions = new double[3];
-            fractions[0] = (double)red / 255.0d;
-            fractions[1] = (double)green / 255.0d;
-            fractions[2] = (double)blue / 255.0d;
-
-            return fractions;
         }
     }
 }

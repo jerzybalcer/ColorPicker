@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="ColorPicker.UserControls.HsvPicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ColorPicker.UserControls" xmlns:colorpicker="clr-namespace:ColorPicker" d:DataContext="{d:DesignInstance Type=colorpicker:PickerViewModel}"
+             xmlns:helpers="clr-namespace:ColorPicker.Helpers"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" DataContextChanged="UserControl_DataContextChanged">
+    <UserControl.Resources>
+        <LinearGradientBrush x:Key="HueBrush" StartPoint="0,0" EndPoint="1,1">
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Color="#FF0000" Offset="0" />
+                <GradientStop Color="#FFFF00" Offset="0.167" />
+                <GradientStop Color="#00FF00" Offset="0.333" />
+                <GradientStop Color="#00FFFF" Offset="0.5" />
+                <GradientStop Color="#0000FF" Offset="0.667" />
+                <GradientStop Color="#FF00FF" Offset="0.833" />
+                <GradientStop Color="#FF0000" Offset="1" />
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+        <VisualBrush x:Key="SatValBrush" TileMode="Tile">
+            <VisualBrush.Visual>
+                <Canvas Background="Black" Width="1" Height="1" SnapsToDevicePixels="True">
+                    <Rectangle Width="1" Height="1" SnapsToDevicePixels="True">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStop Color="White" Offset="0" />
+                                    <GradientStop Color="{Binding PickedHue}" Offset="1" />
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                        <Rectangle.OpacityMask>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStop Color="#FFFFFFFF" Offset="0"/>
+                                    <GradientStop Color="#00FFFFFF" Offset="1"/>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Canvas>
+            </VisualBrush.Visual>
+        </VisualBrush>
+
+        <helpers:SaturationWidthConverter x:Key="SaturationWidthConverter"/>
+        <helpers:ValueHeightConverter x:Key="ValueHeightConverter"/>
+    </UserControl.Resources>
+    
+    <Border>
+        <StackPanel Orientation="Vertical">
+            <Border x:Name="CanvasBackground" Width="375" Height="225" Background="{DynamicResource SatValBrush}" CornerRadius="20">
+                <Canvas x:Name="Canvas" Width="350" Height="200" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Ellipse x:Name="PickingEllipse" Width="25" Height="25" Stroke="{Binding ContrastingColor}" Fill="{Binding PickingEllipseColor}" 
+                             StrokeThickness="2" MouseMove="Rectangle_MouseMove" PreviewMouseUp="PickingEllipse_PreviewMouseUp">
+                        <Ellipse.Style>
+                            <Style TargetType="Ellipse">
+                                <Setter Property="Canvas.Left">
+                                    <Setter.Value>
+                                        <MultiBinding Converter="{StaticResource SaturationWidthConverter}" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                                            <Binding Path="HsvColor.Saturation.Value" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                                            <Binding Path="ActualWidth" ElementName="Canvas" Mode="OneWay"/>
+                                        </MultiBinding>
+                                    </Setter.Value>
+                                </Setter>
+
+                                <Setter Property="Canvas.Top">
+                                    <Setter.Value>
+                                        <MultiBinding Converter="{StaticResource ValueHeightConverter}" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                                            <Binding Path="HsvColor.Value.Value" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                                            <Binding Path="ActualHeight" ElementName="Canvas" Mode="OneWay"/>
+                                        </MultiBinding>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </Canvas>
+            </Border>
+            
+            <Slider x:Name="HueSlider" Minimum="0" Maximum="360" TickFrequency="1" IsSnapToTickEnabled="True" Style="{DynamicResource CustomSlider}"
+                    Foreground="{DynamicResource HueBrush}" Value="{Binding HsvColor.Hue.Value}" Width="375" 
+                    ValueChanged="HueSlider_ValueChanged" PreviewMouseUp="HueSlider_PreviewMouseUp"/>
+
+        </StackPanel>
+    </Border>
+</UserControl>
