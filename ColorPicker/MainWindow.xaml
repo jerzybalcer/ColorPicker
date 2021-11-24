@@ -6,48 +6,49 @@
         xmlns:local="clr-namespace:ColorPicker" d:DataContext="{d:DesignInstance Type=local:PickerViewModel}"
         xmlns:userControls="clr-namespace:ColorPicker.UserControls"
         mc:Ignorable="d"
-        Title="Color Picker" Height="600" Width="900" ResizeMode="NoResize">
+        Title="Color Picker" MinHeight="700" MinWidth="1000" Height="700" Width="1000" ResizeMode="CanResize">
 
-    <Grid x:Name="Container">
+    <Grid x:Name="Container" Margin="10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="6*"/>
-            <ColumnDefinition Width="0.5*"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="0.1*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="0.7*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="0.7*"/>
+            <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
 
-        <userControls:HsvPicker Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"/>
+        <Label Style="{DynamicResource HeaderLabel}" Grid.Row="0" Grid.Column="0" Content="HSV PICKER"/>
 
-        <Rectangle RadiusX="20" RadiusY="20" Margin="15" Opacity="0.5" Grid.Column="2">
-            <Rectangle.Fill>
-                <DrawingBrush TileMode="Tile" Viewport="0,0,20,20" ViewportUnits="Absolute">
-                    <DrawingBrush.Drawing>
-                        <GeometryDrawing Geometry="M0,0 H1 V1 H2 V2 H1 V1 H0Z" Brush="LightGray"/>
-                    </DrawingBrush.Drawing>
-                </DrawingBrush>
-            </Rectangle.Fill>
-        </Rectangle>
+        <userControls:HsvPicker Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch"/>
 
-        <Border x:Name="ColorPresenter" Grid.Row="0" Grid.Column="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
-                Margin="15" Background="{Binding PickedColor}" CornerRadius="20">
-            <Grid>
-                <Label x:Name="ColorHex" Content="{Binding PickedColorHex}" VerticalAlignment="Top" HorizontalAlignment="Right" 
-                   FontSize="24" Margin="5,5,45,5" Foreground="{Binding ContrastingColor}"/>
-                <Label x:Name="CopyColorHex" Content="📋" VerticalAlignment="Top" HorizontalAlignment="Right" 
-                   FontSize="24" Margin="5,5,5,5" Foreground="{Binding ContrastingColor}" Visibility="Visible" 
-                   MouseLeftButtonUp="CopyColorHex_MouseLeftButtonUp" Cursor="Hand"/>
-                <Label x:Name="CopiedColorHex" Content="✔" VerticalAlignment="Top" HorizontalAlignment="Right" 
-                   FontSize="24" Margin="5,5,5,5" Foreground="{Binding ContrastingColor}" Visibility="Hidden"
-                   MouseLeftButtonUp="CopyColorHex_MouseLeftButtonUp" Cursor="Hand"/>
-            </Grid>
-        </Border>
+        <Label Style="{DynamicResource HeaderLabel}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Content="COLOR SCHEMES"/>
 
-        <Grid Grid.Row="2" x:Name="Sliders">
+        <Grid x:Name="ColorTiles" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <userControls:ColorTile Grid.Row="0" Grid.Column="0" Brush="{Binding PickedColor}" Foreground="{Binding PickedColorHex}"/>
+            <userControls:ColorTile Grid.Row="0" Grid.Column="1" Brush="{Binding ColorCombination1}" Foreground="{Binding Combination1Hex}"/>
+            <userControls:ColorTile Grid.Row="1" Grid.Column="0" Brush="{Binding ColorCombination2}" Foreground="{Binding Combination1Hex}"/>
+            <userControls:ColorTile Grid.Row="1" Grid.Column="1" Brush="{Binding ColorCombination3}" Foreground="{Binding Combination1Hex}"/>
+        </Grid>
+
+        <Label Style="{DynamicResource HeaderLabel}" Grid.Row="3" Grid.Column="0" Content="RGB PICKER"/>
+
+        <Grid x:Name="Sliders" Grid.Row="4" Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -93,7 +94,9 @@
                    HorizontalAlignment="Center" Style="{StaticResource CustomTextBox}" KeyUp="RgbTextBox_KeyUp"/>
         </Grid>
 
-        <Grid Grid.Column="2" Grid.Row="2" x:Name="Stats" Margin="50,0,50,0">
+        <Label Style="{DynamicResource HeaderLabel}" Grid.Row="3" Grid.Column="2" Content="CONVERTERS"/>
+
+        <Grid x:Name="Converters" Grid.Column="2" Grid.Row="4" Margin="30,0,30,0">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -206,5 +209,7 @@
                        FontSize="16" Foreground="#7d7d7d"/>
             </Grid>
         </Grid>
+        
+        <Label Style="{DynamicResource HeaderLabel}" Grid.Row="3" Grid.Column="3" Content="OPTIONS"/>
     </Grid>
 </Window>

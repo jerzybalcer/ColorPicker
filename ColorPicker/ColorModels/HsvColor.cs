@@ -1,10 +1,12 @@
 ﻿using ColorPicker.ColorModels.ColorComponents;
+using ColorPicker.ColorModels.Interfaces;
 using System;
 using System.Diagnostics;
+using System.Windows.Media;
 
 namespace ColorPicker.ColorModels
 {
-    public class HsvColor
+    public class HsvColor : IColor
     {
         public DegreesComponent Hue { get; set; }
         public PercentComponent Saturation { get; set; }
@@ -55,6 +57,29 @@ namespace ColorPicker.ColorModels
             }
 
             return new RgbColor((int)((red + m) * 255), (int)((green + m) * 255), (int)((blue + m) * 255));
+        }
+
+        public SolidColorBrush ToSolidColorBrush(int alphaVal = 255)
+        {
+            RgbColor toRgb = this.ToRgbColor();
+
+            return new SolidColorBrush(
+                Color.FromArgb(
+                    (byte)alphaVal, (byte)toRgb.Red.Value, (byte)toRgb.Green.Value, (byte)toRgb.Blue.Value)
+                );
+        }
+        public string ToHexString(bool isAlphaIncluded, int alphaVal = 255)
+        {
+            RgbColor toRgb = this.ToRgbColor();
+
+            string alphaHex = "";
+
+            if (isAlphaIncluded)
+            {
+                alphaHex = alphaVal.ToString("X2");
+            }
+
+            return "#" + alphaHex + toRgb.Red.Value.ToString("X2") + toRgb.Green.Value.ToString("X2") + toRgb.Blue.Value.ToString("X2");
         }
     }
 }

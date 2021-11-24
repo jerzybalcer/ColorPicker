@@ -19,8 +19,8 @@ namespace ColorPicker
 
         private void ColorSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            CopiedColorHex.Visibility = Visibility.Hidden;
-            CopyColorHex.Visibility = Visibility.Visible;
+            //CopiedColorHex.Visibility = Visibility.Hidden;
+            //CopyColorHex.Visibility = Visibility.Visible;
 
             _viewModel.PickFromRgb();
         }
@@ -30,9 +30,9 @@ namespace ColorPicker
         }
         private void CopyColorHex_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            Clipboard.SetText(ColorHex.Content.ToString());
-            CopiedColorHex.Visibility = Visibility.Visible;
-            CopyColorHex.Visibility = Visibility.Hidden;
+            //Clipboard.SetText(ColorHex.Content.ToString());
+            //CopiedColorHex.Visibility = Visibility.Visible;
+            //CopyColorHex.Visibility = Visibility.Hidden;
         }
 
         private void RgbTextBox_KeyUp(object sender, KeyEventArgs e)

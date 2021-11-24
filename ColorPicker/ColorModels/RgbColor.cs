@@ -1,10 +1,12 @@
 ﻿using ColorPicker.ColorModels.ColorComponents;
+using ColorPicker.ColorModels.Interfaces;
 using System;
 using System.Diagnostics;
+using System.Windows.Media;
 
 namespace ColorPicker.ColorModels
 {
-    public class RgbColor
+    public class RgbColor : IColor
     {
         public EightBitComponent Red { get; set; }
         public EightBitComponent Green { get; set; }
@@ -110,6 +112,25 @@ namespace ColorPicker.ColorModels
 
             return new CmykColor((int)(100 * cyanVal), (int)(100 * magentaVal),
                 (int)(100 * yellowVal), (int)(100 * keyVal));
+        }
+
+        public SolidColorBrush ToSolidColorBrush(int alphaVal = 255)
+        {
+            return new SolidColorBrush(
+                Color.FromArgb((byte)alphaVal, (byte)Red.Value, (byte)Green.Value, (byte)Blue.Value)
+                );
+        }
+
+        public string ToHexString(bool isAlphaIncluded, int alphaVal = 255)
+        {
+            string alphaHex = "";
+
+            if (isAlphaIncluded)
+            {
+                alphaHex = alphaVal.ToString("X2");
+            }
+
+            return "#" + alphaHex + Red.Value.ToString("X2") + Green.Value.ToString("X2") + Blue.Value.ToString("X2");
         }
     }
 }
