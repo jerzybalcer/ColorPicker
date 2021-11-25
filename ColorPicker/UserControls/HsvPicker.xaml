@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ColorPicker.UserControls" xmlns:colorpicker="clr-namespace:ColorPicker" d:DataContext="{d:DesignInstance Type=colorpicker:PickerViewModel}"
+             xmlns:local="clr-namespace:ColorPicker.UserControls" xmlns:colorpicker="clr-namespace:ColorPicker" d:DataContext="{d:DesignInstance Type=colorpicker:Picker}"
              xmlns:helpers="clr-namespace:ColorPicker.Helpers"
              mc:Ignorable="d" 
              DataContextChanged="UserControl_DataContextChanged">
@@ -58,14 +58,14 @@
             <Border x:Name="CanvasBackground" MinWidth="350" MinHeight="200" Background="{DynamicResource SatValBrush}" CornerRadius="20" 
                     Grid.Row="0" Margin="0,0,0,5">
                 <Canvas x:Name="Canvas" MinWidth="375" MinHeight="225" Margin="0,0,25,25" Background="Transparent" >
-                    <Ellipse x:Name="PickingEllipse" Width="25" Height="25" Stroke="{Binding ContrastingColor}" Fill="{Binding PickingEllipseColor}" 
+                    <Ellipse x:Name="PickingEllipse" Width="25" Height="25" Stroke="{Binding PrimaryColor.ContrastingBrush}" Fill="{Binding PickingEllipseColor}" 
                              StrokeThickness="2" MouseMove="Rectangle_MouseMove" PreviewMouseUp="PickingEllipse_PreviewMouseUp">
                         <Ellipse.Style>
                             <Style TargetType="Ellipse">
                                 <Setter Property="Canvas.Left">
                                     <Setter.Value>
                                         <MultiBinding Converter="{StaticResource SaturationWidthConverter}" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
-                                            <Binding Path="HsvColor.Saturation.Value" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                                            <Binding Path="PrimaryColor.HsvColor.Saturation.Value" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
                                             <Binding Path="ActualWidth" ElementName="Canvas" Mode="OneWay"/>
                                         </MultiBinding>
                                     </Setter.Value>
@@ -74,7 +74,7 @@
                                 <Setter Property="Canvas.Top">
                                     <Setter.Value>
                                         <MultiBinding Converter="{StaticResource ValueHeightConverter}" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
-                                            <Binding Path="HsvColor.Value.Value" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                                            <Binding Path="PrimaryColor.HsvColor.Value.Value" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
                                             <Binding Path="ActualHeight" ElementName="Canvas" Mode="OneWay"/>
                                         </MultiBinding>
                                     </Setter.Value>
@@ -86,7 +86,7 @@
             </Border>
             
             <Slider x:Name="HueSlider" Minimum="0" Maximum="360" TickFrequency="1" IsSnapToTickEnabled="True" Style="{DynamicResource CustomSlider}"
-                    Foreground="{DynamicResource HueBrush}" Value="{Binding HsvColor.Hue.Value}" Width="{Binding ElementName=Canvas, Path=ActualWidth}" 
+                    Foreground="{DynamicResource HueBrush}" Value="{Binding PrimaryColor.HsvColor.Hue.Value}" Width="{Binding ElementName=Canvas, Path=ActualWidth}" 
                     ValueChanged="HueSlider_ValueChanged" PreviewMouseUp="HueSlider_PreviewMouseUp" Grid.Row="1"/>
 
         </Grid>

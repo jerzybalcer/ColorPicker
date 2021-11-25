@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ColorPicker.UserControls" xmlns:colorpicker="clr-namespace:ColorPicker" d:DataContext="{d:DesignInstance Type=colorpicker:PickerViewModel}"
+             xmlns:local="clr-namespace:ColorPicker.UserControls" xmlns:colorpicker="clr-namespace:ColorPicker" d:DataContext="{d:DesignInstance Type=colorpicker:Picker}"
              mc:Ignorable="d" 
              x:Name="UserControl">
-    <Grid Margin="15,0,15,30">
+    <Grid Margin="10,0,10,0">
         <Rectangle RadiusX="20" RadiusY="20" Opacity="0.5">
             <Rectangle.Fill>
                 <DrawingBrush TileMode="Tile" Viewport="0,0,20,20" ViewportUnits="Absolute">
@@ -20,13 +20,13 @@
         <Border x:Name="ColorPresenter" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                 Background="{Binding Brush, ElementName=UserControl}" CornerRadius="20">
             <Grid>
-                <Label x:Name="ColorHex" Content="{Binding PickedColorHex}" VerticalAlignment="Top" HorizontalAlignment="Right" 
-                   FontSize="24" Margin="5,5,45,5" Foreground="{Binding ContrastingColor}"/>
+                <Label x:Name="ColorHex" Content="{Binding Hex, ElementName=UserControl}" VerticalAlignment="Top" HorizontalAlignment="Right" 
+                   FontSize="{Binding FontSize, ElementName=UserControl}" Margin="5" Foreground="{Binding ContrastingBrush, ElementName=UserControl}"/>
                 <Label x:Name="CopyColorHex" Content="📋" VerticalAlignment="Top" HorizontalAlignment="Right" 
-                   FontSize="24" Margin="5,5,5,5" Foreground="{Binding ContrastingColor}" Visibility="Visible" 
+                   FontSize="24" Margin="5,5,5,5" Foreground="{Binding ContrastingBrush, ElementName=UserControl}" Visibility="Collapsed" 
                     Cursor="Hand"/>
                 <Label x:Name="CopiedColorHex" Content="✔" VerticalAlignment="Top" HorizontalAlignment="Right" 
-                   FontSize="24" Margin="5,5,5,5" Foreground="{Binding ContrastingColor}" Visibility="Hidden"
+                   FontSize="24" Margin="5,5,5,5" Foreground="{Binding ContrastingBrush, ElementName=UserControl}" Visibility="Collapsed"
                     Cursor="Hand"/>
             </Grid>
         </Border>

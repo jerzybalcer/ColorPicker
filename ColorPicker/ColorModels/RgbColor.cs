@@ -1,12 +1,11 @@
 ﻿using ColorPicker.ColorModels.ColorComponents;
-using ColorPicker.ColorModels.Interfaces;
 using System;
 using System.Diagnostics;
 using System.Windows.Media;
 
 namespace ColorPicker.ColorModels
 {
-    public class RgbColor : IColor
+    public class RgbColor
     {
         public EightBitComponent Red { get; set; }
         public EightBitComponent Green { get; set; }

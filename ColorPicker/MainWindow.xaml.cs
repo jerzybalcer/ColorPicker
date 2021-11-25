@@ -9,12 +9,12 @@ namespace ColorPicker
 {
     public partial class MainWindow : Window
     {
-        private PickerViewModel _viewModel;
+        private Picker _picker;
         public MainWindow()
         {
             InitializeComponent();
-            _viewModel = new PickerViewModel();
-            DataContext = _viewModel;
+            _picker = new Picker();
+            DataContext = _picker;
         }
 
         private void ColorSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -22,11 +22,11 @@ namespace ColorPicker
             //CopiedColorHex.Visibility = Visibility.Hidden;
             //CopyColorHex.Visibility = Visibility.Visible;
 
-            _viewModel.PickFromRgb();
+            _picker.PickFromRgb();
         }
         private void ColorSlider_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            _viewModel.ConvertValuesFromRgb();
+            _picker.ConvertValuesFromRgb();
         }
         private void CopyColorHex_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -37,13 +37,13 @@ namespace ColorPicker
 
         private void RgbTextBox_KeyUp(object sender, KeyEventArgs e)
         {
-            _viewModel.ConvertValuesFromRgb();
+            _picker.ConvertValuesFromRgb();
         }
 
         private void HsvTextBox_KeyUp(object sender, KeyEventArgs e)
         {
-            _viewModel.PickFromHsv();
-            _viewModel.ConvertValuesFromHsv();
+            _picker.PickFromHsv();
+            _picker.ConvertValuesFromHsv();
         }
     }
 }

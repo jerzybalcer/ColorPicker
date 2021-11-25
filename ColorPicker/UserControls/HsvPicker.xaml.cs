@@ -13,7 +13,7 @@ namespace ColorPicker.UserControls
     /// </summary>
     public partial class HsvPicker : UserControl
     {
-        private PickerViewModel _vm;
+        private Picker _picker;
 
         public HsvPicker()
         {
@@ -22,17 +22,17 @@ namespace ColorPicker.UserControls
 
         private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            _vm = (PickerViewModel)DataContext;
+            _picker = (Picker)DataContext;
         }
 
         private void HueSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            _vm.PickFromHsv();
+            _picker.PickFromHsv();
         }
 
         private void HueSlider_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            _vm.ConvertValuesFromHsv();
+            _picker.ConvertValuesFromHsv();
         }
 
         private void Rectangle_MouseMove(object sender, MouseEventArgs e)
@@ -48,7 +48,7 @@ namespace ColorPicker.UserControls
                 Canvas.SetTop(PickingEllipse, Canvas.ActualHeight - newPosY);
 
                 PickingEllipse.CaptureMouse();
-                _vm.PickFromHsv();
+                _picker.PickFromHsv();
                 // todo: change copied/uncopied
             }
         }
@@ -56,7 +56,7 @@ namespace ColorPicker.UserControls
         private void PickingEllipse_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             PickingEllipse.ReleaseMouseCapture();
-            _vm.ConvertValuesFromHsv();
+            _picker.ConvertValuesFromHsv();
         }
     }
 }

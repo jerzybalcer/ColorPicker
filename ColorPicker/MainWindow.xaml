@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ColorPicker" d:DataContext="{d:DesignInstance Type=local:PickerViewModel}"
+        xmlns:local="clr-namespace:ColorPicker" d:DataContext="{d:DesignInstance Type=local:Picker}"
         xmlns:userControls="clr-namespace:ColorPicker.UserControls"
         mc:Ignorable="d"
         Title="Color Picker" MinHeight="700" MinWidth="1000" Height="700" Width="1000" ResizeMode="CanResize">
@@ -28,22 +28,30 @@
 
         <userControls:HsvPicker Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch"/>
 
-        <Label Style="{DynamicResource HeaderLabel}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Content="COLOR SCHEMES"/>
+        <Label Style="{DynamicResource HeaderLabel}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Content="PICKED COLOR"/>
 
         <Grid x:Name="ColorTiles" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="7*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="6*"/>
             </Grid.RowDefinitions>
 
-            <userControls:ColorTile Grid.Row="0" Grid.Column="0" Brush="{Binding PickedColor}" Foreground="{Binding PickedColorHex}"/>
-            <userControls:ColorTile Grid.Row="0" Grid.Column="1" Brush="{Binding ColorCombination1}" Foreground="{Binding Combination1Hex}"/>
-            <userControls:ColorTile Grid.Row="1" Grid.Column="0" Brush="{Binding ColorCombination2}" Foreground="{Binding Combination1Hex}"/>
-            <userControls:ColorTile Grid.Row="1" Grid.Column="1" Brush="{Binding ColorCombination3}" Foreground="{Binding Combination1Hex}"/>
+            <userControls:ColorTile Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Brush="{Binding PrimaryColor.Brush}" Hex="{Binding PrimaryColor.Hex}" 
+                                    ContrastingBrush="{Binding PrimaryColor.ContrastingBrush}" FontSize="26"/>
+            <Label Style="{DynamicResource HeaderLabel}" Grid.Row="1" Grid.ColumnSpan="3" Content="TETRADIC" FontSize="15" Padding="0"/>
+
+            <userControls:ColorTile Grid.Row="2" Grid.Column="0" Brush="{Binding ComplementColor1.Brush}" Hex="{Binding ComplementColor1.Hex}"
+                                    ContrastingBrush="{Binding ComplementColor1.ContrastingBrush}" FontSize="22"/>
+            <userControls:ColorTile Grid.Row="2" Grid.Column="1" Brush="{Binding ComplementColor2.Brush}" Hex="{Binding ComplementColor2.Hex}"
+                                    ContrastingBrush="{Binding ComplementColor2.ContrastingBrush}" FontSize="22"/>
+            <userControls:ColorTile Grid.Row="2" Grid.Column="2" Brush="{Binding ComplementColor3.Brush}" Hex="{Binding ComplementColor3.Hex}"
+                                    ContrastingBrush="{Binding ComplementColor3.ContrastingBrush}" FontSize="22"/>
         </Grid>
 
         <Label Style="{DynamicResource HeaderLabel}" Grid.Row="3" Grid.Column="0" Content="RGB PICKER"/>
@@ -62,36 +70,36 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" FontSize="18" Content="R" HorizontalAlignment="Center" VerticalAlignment="Center"
-                   Foreground="#7d7d7d"/>
-            <Label Grid.Row="1" Grid.Column="0" FontSize="18" Content="G" HorizontalAlignment="Center" VerticalAlignment="Center"
-                   Foreground="#7d7d7d"/>
-            <Label Grid.Row="2" Grid.Column="0" FontSize="18" Content="B" HorizontalAlignment="Center" VerticalAlignment="Center"
-                   Foreground="#7d7d7d"/>
-            <Label Grid.Row="3" Grid.Column="0" FontSize="18" Content="A" HorizontalAlignment="Center" VerticalAlignment="Center"
-                   Foreground="#7d7d7d"/>
+            <Label Grid.Row="0" Grid.Column="0" FontSize="18" Content="R" HorizontalAlignment="Center" VerticalAlignment="Top"
+                   Foreground="#7d7d7d" Padding="0"/>
+            <Label Grid.Row="1" Grid.Column="0" FontSize="18" Content="G" HorizontalAlignment="Center" VerticalAlignment="Top"
+                   Foreground="#7d7d7d" Padding="0"/>
+            <Label Grid.Row="2" Grid.Column="0" FontSize="18" Content="B" HorizontalAlignment="Center" VerticalAlignment="Top"
+                   Foreground="#7d7d7d" Padding="0"/>
+            <Label Grid.Row="3" Grid.Column="0" FontSize="18" Content="A" HorizontalAlignment="Center" VerticalAlignment="Top"
+                   Foreground="#7d7d7d" Padding="0"/>
 
             <Slider x:Name="RedSlider" Grid.Row="0" Grid.Column="1" Minimum="0" Maximum="255" TickFrequency="1" 
-                    IsSnapToTickEnabled="True" Value="{Binding RgbColor.Red.Value}" ValueChanged="ColorSlider_ValueChanged"
-                    VerticalAlignment="Center" PreviewMouseUp="ColorSlider_PreviewMouseUp" Style="{DynamicResource CustomSlider}"/>
+                    IsSnapToTickEnabled="True" Value="{Binding PrimaryColor.RgbColor.Red.Value}" ValueChanged="ColorSlider_ValueChanged"
+                    VerticalAlignment="Top" PreviewMouseUp="ColorSlider_PreviewMouseUp" Style="{DynamicResource CustomSlider}"/>
             <Slider x:Name="GreenSlider" Grid.Row="1" Grid.Column="1" Minimum="0" Maximum="255" TickFrequency="1" 
-                    IsSnapToTickEnabled="True" Value="{Binding RgbColor.Green.Value}" ValueChanged="ColorSlider_ValueChanged"
-                    VerticalAlignment="Center" PreviewMouseUp="ColorSlider_PreviewMouseUp" Style="{DynamicResource CustomSlider}"/>
+                    IsSnapToTickEnabled="True" Value="{Binding PrimaryColor.RgbColor.Green.Value}" ValueChanged="ColorSlider_ValueChanged"
+                    VerticalAlignment="Top" PreviewMouseUp="ColorSlider_PreviewMouseUp" Style="{DynamicResource CustomSlider}"/>
             <Slider x:Name="BlueSlider" Grid.Row="2" Grid.Column="1" Minimum="0" Maximum="255" TickFrequency="1" 
-                    IsSnapToTickEnabled="True" Value="{Binding RgbColor.Blue.Value}" ValueChanged="ColorSlider_ValueChanged"
-                    VerticalAlignment="Center" PreviewMouseUp="ColorSlider_PreviewMouseUp" Style="{DynamicResource CustomSlider}"/>
+                    IsSnapToTickEnabled="True" Value="{Binding PrimaryColor.RgbColor.Blue.Value}" ValueChanged="ColorSlider_ValueChanged"
+                    VerticalAlignment="Top" PreviewMouseUp="ColorSlider_PreviewMouseUp" Style="{DynamicResource CustomSlider}"/>
             <Slider x:Name="AlphaSlider" Grid.Row="3" Grid.Column="1" Minimum="0" Maximum="255" TickFrequency="1" 
-                    IsSnapToTickEnabled="True" Value="{Binding Alpha.Value}" ValueChanged="ColorSlider_ValueChanged"
-                    VerticalAlignment="Center" Style="{DynamicResource CustomSlider}"/>
+                    IsSnapToTickEnabled="True" Value="{Binding PrimaryColor.Alpha.Value}" ValueChanged="ColorSlider_ValueChanged"
+                    VerticalAlignment="Top" Style="{DynamicResource CustomSlider}"/>
 
-            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding RgbColor.Red.Value, UpdateSourceTrigger=PropertyChanged}" 
-                     HorizontalAlignment="Center" Style="{StaticResource CustomTextBox}" KeyUp="RgbTextBox_KeyUp"/>
-            <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding RgbColor.Green.Value, UpdateSourceTrigger=PropertyChanged}" 
-                   HorizontalAlignment="Center" Style="{StaticResource CustomTextBox}" KeyUp="RgbTextBox_KeyUp"/>
-            <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding RgbColor.Blue.Value, UpdateSourceTrigger=PropertyChanged}" 
-                   HorizontalAlignment="Center" Style="{StaticResource CustomTextBox}" KeyUp="RgbTextBox_KeyUp"/>
-            <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding Alpha.Value, UpdateSourceTrigger=PropertyChanged}" 
-                   HorizontalAlignment="Center" Style="{StaticResource CustomTextBox}" KeyUp="RgbTextBox_KeyUp"/>
+            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding PrimaryColor.RgbColor.Red.Value, UpdateSourceTrigger=PropertyChanged}" 
+                     HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource CustomTextBox}" KeyUp="RgbTextBox_KeyUp"/>
+            <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding PrimaryColor.RgbColor.Green.Value, UpdateSourceTrigger=PropertyChanged}" 
+                   HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource CustomTextBox}" KeyUp="RgbTextBox_KeyUp"/>
+            <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding PrimaryColor.RgbColor.Blue.Value, UpdateSourceTrigger=PropertyChanged}" 
+                   HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource CustomTextBox}" KeyUp="RgbTextBox_KeyUp"/>
+            <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding PrimaryColor.Alpha.Value, UpdateSourceTrigger=PropertyChanged}" 
+                   HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource CustomTextBox}" KeyUp="RgbTextBox_KeyUp"/>
         </Grid>
 
         <Label Style="{DynamicResource HeaderLabel}" Grid.Row="3" Grid.Column="2" Content="CONVERTERS"/>
@@ -115,17 +123,17 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding HsvColor.Hue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding PrimaryColor.HsvColor.Hue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Top" 
                     Style="{StaticResource CustomTextBox}" KeyUp="HsvTextBox_KeyUp"/>
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding HsvColor.Saturation.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding PrimaryColor.HsvColor.Saturation.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Top" 
                     Style="{StaticResource CustomTextBox}" KeyUp="HsvTextBox_KeyUp"/>
-                <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding HsvColor.Value.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding PrimaryColor.HsvColor.Value.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Top" 
                     Style="{StaticResource CustomTextBox}" KeyUp="HsvTextBox_KeyUp"/>
-                <Label Grid.Column="0" Grid.Row="1" Content="H" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                <Label Grid.Column="0" Grid.Row="1" Content="H" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0"
                        FontSize="16" Foreground="#7d7d7d"/>
-                <Label Grid.Column="1" Grid.Row="1" Content="S" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                <Label Grid.Column="1" Grid.Row="1" Content="S" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0"
                        FontSize="16" Foreground="#7d7d7d"/>
-                <Label Grid.Column="2" Grid.Row="1" Content="V" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                <Label Grid.Column="2" Grid.Row="1" Content="V" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0"
                        FontSize="16" Foreground="#7d7d7d"/>
             </Grid>
 
@@ -140,17 +148,17 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding HslColor.Hue.Value}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding PrimaryColor.HslColor.Hue.Value}" HorizontalAlignment="Center" VerticalAlignment="Top" 
                     Style="{StaticResource CustomTextBox}"/>
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding HslColor.Saturation.Value}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding PrimaryColor.HslColor.Saturation.Value}" HorizontalAlignment="Center" VerticalAlignment="Top" 
                     Style="{StaticResource CustomTextBox}"/>
-                <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding HslColor.Lightness.Value}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding PrimaryColor.HslColor.Lightness.Value}" HorizontalAlignment="Center" VerticalAlignment="Top" 
                     Style="{StaticResource CustomTextBox}"/>
-                <Label Grid.Column="0" Grid.Row="1" Content="H" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                <Label Grid.Column="0" Grid.Row="1" Content="H" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0"
                        FontSize="16" Foreground="#7d7d7d"/>
-                <Label Grid.Column="1" Grid.Row="1" Content="S" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                <Label Grid.Column="1" Grid.Row="1" Content="S" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0"
                        FontSize="16" Foreground="#7d7d7d"/>
-                <Label Grid.Column="2" Grid.Row="1" Content="L" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                <Label Grid.Column="2" Grid.Row="1" Content="L" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0"
                        FontSize="16" Foreground="#7d7d7d"/>
             </Grid>
 
@@ -166,21 +174,21 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding CmykColor.Cyan.Value}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding PrimaryColor.CmykColor.Cyan.Value}" HorizontalAlignment="Center" VerticalAlignment="Top" 
                     Style="{StaticResource CustomTextBox}"/>
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding CmykColor.Magenta.Value}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding PrimaryColor.CmykColor.Magenta.Value}" HorizontalAlignment="Center" VerticalAlignment="Top" 
                     Style="{StaticResource CustomTextBox}"/>
-                <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding CmykColor.Yellow.Value}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding PrimaryColor.CmykColor.Yellow.Value}" HorizontalAlignment="Center" VerticalAlignment="Top" 
                     Style="{StaticResource CustomTextBox}"/>
-                <TextBox Grid.Column="3" Grid.Row="0" Text="{Binding CmykColor.Key.Value}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                <TextBox Grid.Column="3" Grid.Row="0" Text="{Binding PrimaryColor.CmykColor.Key.Value}" HorizontalAlignment="Center" VerticalAlignment="Top" 
                     Style="{StaticResource CustomTextBox}"/>
-                <Label Grid.Column="0" Grid.Row="1" Content="C" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                <Label Grid.Column="0" Grid.Row="1" Content="C" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0"
                        FontSize="16" Foreground="#7d7d7d"/>
-                <Label Grid.Column="1" Grid.Row="1" Content="M" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                <Label Grid.Column="1" Grid.Row="1" Content="M" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0"
                        FontSize="16" Foreground="#7d7d7d"/>
-                <Label Grid.Column="2" Grid.Row="1" Content="Y" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                <Label Grid.Column="2" Grid.Row="1" Content="Y" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0"
                        FontSize="16" Foreground="#7d7d7d"/>
-                <Label Grid.Column="3" Grid.Row="1" Content="K" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                <Label Grid.Column="3" Grid.Row="1" Content="K" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0"
                        FontSize="16" Foreground="#7d7d7d"/>
             </Grid>
 
@@ -195,21 +203,25 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding RgbColor.Red.Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding PrimaryColor.RgbColor.Red.Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Top" 
                     Style="{StaticResource CustomTextBox}" KeyUp="RgbTextBox_KeyUp"/>
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding RgbColor.Green.Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding PrimaryColor.RgbColor.Green.Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Top" 
                     Style="{StaticResource CustomTextBox}" KeyUp="RgbTextBox_KeyUp"/>
-                <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding RgbColor.Blue.Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding PrimaryColor.RgbColor.Blue.Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Top" 
                     Style="{StaticResource CustomTextBox}" KeyUp="RgbTextBox_KeyUp"/>
-                <Label Grid.Column="0" Grid.Row="1" Content="R" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                <Label Grid.Column="0" Grid.Row="1" Content="R" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0"
                        FontSize="16" Foreground="#7d7d7d"/>
-                <Label Grid.Column="1" Grid.Row="1" Content="G" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                <Label Grid.Column="1" Grid.Row="1" Content="G" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0"
                        FontSize="16" Foreground="#7d7d7d"/>
-                <Label Grid.Column="2" Grid.Row="1" Content="B" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                <Label Grid.Column="2" Grid.Row="1" Content="B" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0"
                        FontSize="16" Foreground="#7d7d7d"/>
             </Grid>
         </Grid>
         
         <Label Style="{DynamicResource HeaderLabel}" Grid.Row="3" Grid.Column="3" Content="OPTIONS"/>
+
+        <Grid Grid.Row="4" Grid.Column="3" HorizontalAlignment="Center">
+            <CheckBox x:Name="AlphaCheckBox" Content="ARGB HEX" IsChecked="{Binding IncludeAlpha}" Style="{StaticResource CustomCheckBox}" FontSize="20" VerticalAlignment="Top"/>
+        </Grid>
     </Grid>
 </Window>

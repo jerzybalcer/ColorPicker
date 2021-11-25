@@ -6,13 +6,14 @@
 
         public int Value
         {
-            get {
+            get
+            {
                 if (_val > 360)
-                    return 360;
+                    return _val - 360;
                 else if (_val < 0)
-                    return 0;
+                    return 360 + _val;
                 else
-                    return _val; 
+                    return _val;
             }
             set { _val = value; }
         }
