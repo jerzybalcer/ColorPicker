@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ColorPicker.UserControls" xmlns:colorpicker="clr-namespace:ColorPicker" d:DataContext="{d:DesignInstance Type=colorpicker:Picker}"
              mc:Ignorable="d" 
-             x:Name="UserControl">
-    <Grid Margin="10,0,10,0">
+             x:Name="UserControl" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave" MouseDown="UserControl_MouseDown" Cursor="Hand">
+    <Grid x:Name="TransparencyBackground" Margin="10,0,10,0">
         <Rectangle RadiusX="20" RadiusY="20" Opacity="0.5">
             <Rectangle.Fill>
                 <DrawingBrush TileMode="Tile" Viewport="0,0,20,20" ViewportUnits="Absolute">
@@ -22,8 +22,8 @@
             <Grid>
                 <Label x:Name="ColorHex" Content="{Binding Hex, ElementName=UserControl}" VerticalAlignment="Top" HorizontalAlignment="Right" 
                    FontSize="{Binding FontSize, ElementName=UserControl}" Margin="5" Foreground="{Binding ContrastingBrush, ElementName=UserControl}"/>
-                <Label x:Name="CopyColorHex" Content="📋" VerticalAlignment="Top" HorizontalAlignment="Right" 
-                   FontSize="24" Margin="5,5,5,5" Foreground="{Binding ContrastingBrush, ElementName=UserControl}" Visibility="Collapsed" 
+                <Label x:Name="CopyColorHex" Content="📋" VerticalAlignment="Bottom" HorizontalAlignment="Right" 
+                   FontSize="36" Margin="5,5,5,15" Foreground="{Binding ContrastingBrush, ElementName=UserControl}" Visibility="Collapsed" 
                     Cursor="Hand"/>
                 <Label x:Name="CopiedColorHex" Content="✔" VerticalAlignment="Top" HorizontalAlignment="Right" 
                    FontSize="24" Margin="5,5,5,5" Foreground="{Binding ContrastingBrush, ElementName=UserControl}" Visibility="Collapsed"

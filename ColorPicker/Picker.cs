@@ -1,4 +1,5 @@
 ﻿using ColorPicker.ColorModels;
+using ColorPicker.PickedColors;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -9,11 +10,13 @@ namespace ColorPicker
     public class Picker : INotifyPropertyChanged
     {
         public PickedColor PrimaryColor { get; set; }
-        public PickedColor ComplementColor1 { get; set; }
-        public PickedColor ComplementColor2 { get; set; }
-        public PickedColor ComplementColor3 { get; set; }
-        public List<PickedColor> Complements { get; set; }
+        public PickedColor CombinationColor1 { get; set; }
+        public PickedColor CombinationColor2 { get; set; }
+        public PickedColor CombinationColor3 { get; set; }
 
+        private readonly List<PickedColor> _complements;
+
+        public CombinationType Combination { get; set; }
         public Color PickedHue { get; set; }
         public SolidColorBrush PickingEllipseColor { get; set; }
         public bool AlreadyPicked { get; set; }
@@ -26,7 +29,7 @@ namespace ColorPicker
             PrimaryColor.Brush = PrimaryColor.RgbColor.ToSolidColorBrush(PrimaryColor.Alpha.Value);
             PrimaryColor.Hex = PrimaryColor.RgbColor.ToHexString(isAlphaIncluded: IncludeAlpha);
 
-            PrimaryColor.ContrastingBrush = ColorProcessor.PickContrastingColor(
+            PrimaryColor.ContrastingBrush = ColorProcessor.GetContrastingBrush(
                 PrimaryColor.RgbColor.Red.Value, PrimaryColor.RgbColor.Green.Value, PrimaryColor.RgbColor.Blue.Value, PrimaryColor.Alpha.Value);
         }
         public void PickFromHsv()
@@ -42,7 +45,7 @@ namespace ColorPicker
 
             PrimaryColor.Hex = tempRgb.ToHexString(isAlphaIncluded: IncludeAlpha);
 
-            PrimaryColor.ContrastingBrush = ColorProcessor.PickContrastingColor(
+            PrimaryColor.ContrastingBrush = ColorProcessor.GetContrastingBrush(
                 tempRgb.Red.Value, tempRgb.Green.Value, tempRgb.Blue.Value, PrimaryColor.Alpha.Value);
         }
         public void ConvertValuesFromRgb()
@@ -79,27 +82,29 @@ namespace ColorPicker
             PickedHue = Color.FromRgb((byte)toRgb.Red.Value, (byte)toRgb.Green.Value, (byte)toRgb.Blue.Value);
         }
 
-        private void UpdateComplements()
+        public void UpdateComplements()
         {
-            for (var i = 0; i < Complements.Count; i++)
-            {
-                RgbColor newColor = new HsvColor(PrimaryColor.HsvColor.Hue.Value + 90 * (i + 1),
-                    PrimaryColor.HsvColor.Saturation.Value, PrimaryColor.HsvColor.Value.Value).ToRgbColor();
+            List<HsvColor> combinationColors = ColorProcessor.GetCombinationColors(Combination, PrimaryColor.HsvColor);
 
-                Complements[i].Brush = newColor.ToSolidColorBrush(PrimaryColor.Alpha.Value);
-                Complements[i].Hex = newColor.ToHexString(isAlphaIncluded: IncludeAlpha);
-                Complements[i].ContrastingBrush = ColorProcessor.PickContrastingColor(newColor.Red.Value, newColor.Green.Value,
-                    newColor.Blue.Value, PrimaryColor.Alpha.Value);
+            for(int i = 0; i < combinationColors.Count; i++)
+            {
+                RgbColor toRgb = combinationColors[i].ToRgbColor();
+                _complements[i].Brush = toRgb.ToSolidColorBrush(PrimaryColor.Alpha.Value);
+                _complements[i].Hex = toRgb.ToHexString(isAlphaIncluded: IncludeAlpha);
+                _complements[i].ContrastingBrush = ColorProcessor.GetContrastingBrush(toRgb.Red.Value, toRgb.Green.Value,
+                    toRgb.Blue.Value, PrimaryColor.Alpha.Value);
             }
         }
 
         public Picker()
         {
             PrimaryColor = new();
-            ComplementColor1 = new();
-            ComplementColor2 = new();
-            ComplementColor3 = new();
-            Complements = new List<PickedColor> { ComplementColor1, ComplementColor2, ComplementColor3 };
+            CombinationColor1 = new();
+            CombinationColor2 = new();
+            CombinationColor3 = new();
+            _complements = new List<PickedColor> { CombinationColor1, CombinationColor2, CombinationColor3 };
+            UpdateComplements();
+            Combination = CombinationType.Tetradic;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

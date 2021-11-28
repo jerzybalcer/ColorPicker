@@ -45,8 +45,10 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <Border CornerRadius="8" BorderThickness="1" BorderBrush="#7d7d7d" Cursor="Hand" Grid.Row="0" Padding="5">
-                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <Border CornerRadius="8" BorderThickness="1" BorderBrush="#7d7d7d" Grid.Row="0" Padding="5">
+                            <Grid x:Name="markGrid">
+                                <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Grid>
                         </Border>
                         <!--<Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -92,6 +94,9 @@
                             <Setter Property="Opacity" TargetName="optionMark" Value="0"/>
                             <Setter Property="Opacity" TargetName="indeterminateMark" Value="1"/>
                         </Trigger>-->
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Cursor" Value="Hand"/>
+                        </Trigger>
                         <Trigger Property="IsChecked" Value="true">
                             <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
                         </Trigger>

@@ -1,6 +1,5 @@
-﻿using System;
+﻿using ColorPicker.PickedColors;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -10,6 +9,7 @@ namespace ColorPicker
     public partial class MainWindow : Window
     {
         private Picker _picker;
+        private int _complements = 4;
         public MainWindow()
         {
             InitializeComponent();
@@ -19,20 +19,11 @@ namespace ColorPicker
 
         private void ColorSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            //CopiedColorHex.Visibility = Visibility.Hidden;
-            //CopyColorHex.Visibility = Visibility.Visible;
-
             _picker.PickFromRgb();
         }
         private void ColorSlider_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             _picker.ConvertValuesFromRgb();
-        }
-        private void CopyColorHex_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            //Clipboard.SetText(ColorHex.Content.ToString());
-            //CopiedColorHex.Visibility = Visibility.Visible;
-            //CopyColorHex.Visibility = Visibility.Hidden;
         }
 
         private void RgbTextBox_KeyUp(object sender, KeyEventArgs e)
@@ -44,6 +35,36 @@ namespace ColorPicker
         {
             _picker.PickFromHsv();
             _picker.ConvertValuesFromHsv();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (_complements == 6)
+            {
+                _complements = 0;
+
+                ColorTiles.ColumnDefinitions[2].Width = new GridLength(0);
+                ColorTiles.ColumnDefinitions[1].Width = new GridLength(0);
+            }
+            else if(_complements == 3)
+            {
+                _complements = 4;
+
+                ColorTiles.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
+            }
+            else if(_complements == 0)
+            {
+                _complements = 1;
+
+                ColorTiles.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
+            }
+            else
+            {
+                _complements++;
+            }
+
+            _picker.Combination = (CombinationType)_complements;
+            _picker.UpdateComplements();
         }
     }
 }

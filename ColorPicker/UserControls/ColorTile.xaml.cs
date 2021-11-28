@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ColorPicker.UserControls
 {
@@ -50,6 +40,21 @@ namespace ColorPicker.UserControls
         public ColorTile()
         {
             InitializeComponent();
+        }
+
+        private void UserControl_MouseEnter(object sender, MouseEventArgs e)
+        {
+            CopyColorHex.Visibility = Visibility.Visible;
+        }
+
+        private void UserControl_MouseLeave(object sender, MouseEventArgs e)
+        {
+            CopyColorHex.Visibility = Visibility.Collapsed;
+        }
+
+        private void UserControl_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Clipboard.SetText(ColorHex.Content.ToString());
         }
     }
 }
