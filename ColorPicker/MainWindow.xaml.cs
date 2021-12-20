@@ -1,4 +1,5 @@
 ﻿using ColorPicker.PickedColors;
+using ColorPicker.HueLightsUtilities;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,6 +11,9 @@ namespace ColorPicker
     {
         private Picker _picker;
         private int _complements = 4;
+        private bool hueLightsWindowOpen = false;
+        private HueLightsConfigWindow hueLightsWindow;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -65,6 +69,22 @@ namespace ColorPicker
 
             _picker.Combination = (CombinationType)_complements;
             _picker.UpdateComplements();
+        }
+
+        private void HueLightsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (!hueLightsWindowOpen)
+            {
+                hueLightsWindow = new HueLightsConfigWindow();
+                hueLightsWindow.Show();
+                hueLightsWindowOpen = true;
+
+                hueLightsWindow.Unloaded += (s, e) => { hueLightsWindowOpen = false; };
+            }
+            else
+            {
+                hueLightsWindow.Focus();
+            }
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using ColorPicker.ColorModels;
+using ColorPicker.HueLightsUtilities;
 using ColorPicker.PickedColors;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows.Media;
 
 namespace ColorPicker
@@ -62,6 +62,8 @@ namespace ColorPicker
 
             UpdateComplements();
 
+            HueLights.SetLights(PrimaryColor.RgbColor);
+
             AlreadyPicked = false;
         }
         public void ConvertValuesFromHsv()
@@ -73,6 +75,8 @@ namespace ColorPicker
             PrimaryColor.CmykColor = PrimaryColor.RgbColor.ToCmykColor();
 
             UpdateComplements();
+
+            HueLights.SetLights(PrimaryColor.RgbColor);
 
             AlreadyPicked = false;
         }

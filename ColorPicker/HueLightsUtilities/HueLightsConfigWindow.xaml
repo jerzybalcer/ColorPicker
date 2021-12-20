@@ -1,0 +1,63 @@
+﻿<Window x:Class="ColorPicker.HueLightsUtilities.HueLightsConfigWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ColorPicker.HueLightsUtilities"
+        mc:Ignorable="d"
+        Title="Hue Lights Config" Height="350" Width="350" Closed="Window_Closed" ResizeMode="NoResize">
+    <Grid Loaded="Grid_Loaded">
+        <Grid x:Name="BeforeConnecting" Visibility="Visible">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Button Content="Search for Hue Bridge" x:Name="LocateBtn" Grid.Row="0" Click="LocateBtn_Click"/>
+            <ListBox x:Name="FoundBridges" Grid.Row="1" SelectionMode="Single"/>
+            <Button Content="Connect to selected Bridge" x:Name="ConnectBtn" Grid.Row="2" Click="ConnectBtn_Click"/>
+        </Grid>
+
+        <Grid x:Name="AfterConnecting" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Connected to Hue Bridge" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="LimeGreen" 
+                       FontWeight="Medium" FontSize="24"/>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <CheckBox x:Name="AlwaysSyncCheck" Content="Always Sync" IsChecked="False" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Button x:Name="DisconnectBtn" Content="Disconnect" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" Click="DisconnectBtn_Click"/>
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="5*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="All Lights" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="2"/>
+                <TextBlock Text="Selected Lights" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="2"/>
+                
+                <ListBox x:Name="AllLights" Grid.Column="0" Grid.Row="1" SelectionMode="Single" SelectionChanged="AllLights_SelectionChanged"/>
+                <ListBox x:Name="SelectedLights" Grid.Column="1" Grid.Row="1" SelectionMode="Single" SelectionChanged="SelectedLights_SelectionChanged"/>
+            </Grid>
+
+        </Grid>
+    </Grid>
+</Window>

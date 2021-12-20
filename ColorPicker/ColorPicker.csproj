@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
+    <PackageReference Include="Q42.HueApi" Version="3.19.0" />
+    <PackageReference Include="Q42.HueApi.ColorConverters" Version="3.18.1" />
   </ItemGroup>
 
 </Project>

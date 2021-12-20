@@ -231,6 +231,7 @@
         <Label Style="{DynamicResource HeaderLabel}" Grid.Row="3" Grid.Column="3" Content="OPTIONS"/>
 
         <Grid Grid.Row="4" Grid.Column="3" HorizontalAlignment="Center">
+            <Button x:Name="HueLightsBtn" Content="HueLights" VerticalAlignment="Top" Padding="10" Click="HueLightsBtn_Click"/>
             <!--<CheckBox x:Name="AlphaCheckBox" Content="ARGB HEX" IsChecked="{Binding IncludeAlpha}" Style="{StaticResource CustomCheckBox}" FontSize="20" VerticalAlignment="Top"/>-->
         </Grid>
     </Grid>
