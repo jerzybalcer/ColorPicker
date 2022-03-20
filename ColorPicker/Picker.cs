@@ -107,8 +107,8 @@ namespace ColorPicker
             CombinationColor2 = new();
             CombinationColor3 = new();
             _complements = new List<PickedColor> { CombinationColor1, CombinationColor2, CombinationColor3 };
+            Combination = CombinationType.Shades;
             UpdateComplements();
-            Combination = CombinationType.Tetradic;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
