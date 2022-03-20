@@ -10,6 +10,7 @@
                 <ResourceDictionary Source="ResourceDictionaries/CustomSlider.xaml"/>
                 <ResourceDictionary Source="ResourceDictionaries/CustomCheckBox.xaml"/>
                 <ResourceDictionary Source="ResourceDictionaries/HeaderLabel.xaml"/>
+                <ResourceDictionary Source="ResourceDictionaries/CustomButton.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
